@@ -1,16 +1,10 @@
-FROM debian:stretch
+FROM apluslms/run-python3
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
       apt-transport-https \
-      ca-certificates \
-      build-essential \
       software-properties-common \
       curl \
       gnupg2 \
-      git \
-      python3 \
-      python3-pip \
-      python3-dev \
       libxml2-dev \
       libxslt-dev \
       zlib1g-dev \
@@ -27,8 +21,7 @@ RUN git clone https://github.com/Aalto-LeTech/mooc-grader.git .
 
 ADD settings_local.py .
 
-RUN pip3 install setuptools wheel \
-  && pip3 install -r requirements.txt \
+RUN pip3 install -r requirements.txt \
   && python3 manage.py migrate \
   && pip3 install sphinx
 
