@@ -22,8 +22,7 @@ RUN git clone https://github.com/Aalto-LeTech/mooc-grader.git .
 ADD settings_local.py .
 
 RUN pip3 install -r requirements.txt \
-  && python3 manage.py migrate \
-  && pip3 install sphinx
+  && python3 manage.py migrate
 
 VOLUME /srv/courses/default
 EXPOSE 8080
