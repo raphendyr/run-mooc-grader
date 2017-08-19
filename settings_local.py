@@ -1,5 +1,4 @@
-CONTAINER_MODE=True
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-ADD_APPS = (
-    'gitmanager',
-)
+CONTAINER_MODE = True
+CONTAINER_SCRIPT = os.path.join(BASE_DIR, "scripts/docker-compose-run.sh")
