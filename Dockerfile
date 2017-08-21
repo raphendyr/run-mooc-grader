@@ -20,6 +20,7 @@ WORKDIR /srv
 RUN git clone https://github.com/Aalto-LeTech/mooc-grader.git .
 
 ADD settings_local.py .
+ADD docker-compose-run.sh ./scripts/
 
 RUN pip3 install -r requirements.txt \
   && python3 manage.py migrate
