@@ -8,6 +8,8 @@ DOCKER_IMAGE=$3
 EXERCISE_MOUNT=$4
 SUBMISSION_MOUNT=$5
 CMD=$6
+COURSE_JSON=$7
+EXERCISE_JSON=$8
 
 # Manage for docker-compose setup, see test course for reference.
 # Docker cannot bind volume from inside docker so global /tmp is used.
@@ -20,12 +22,27 @@ mkdir -p $TMP_SUBMISSION_MOUNT
 cp -r $EXERCISE_MOUNT $(dirname $TMP_EXERCISE_MOUNT)
 cp -r $SUBMISSION_MOUNT $(dirname $TMP_SUBMISSION_MOUNT)
 
+# use Python to parse EXERCISE_JSON
+# in personalized exercises, we need the file path to the correct instance
+parsejson="import json; print(json.loads('$EXERCISE_JSON').get('personalized_exercise', ''))"
+PERSONALIZED_MOUNT=$(python3 -c "$parsejson")
+# normal exercises do not use the personalized mount
+PERSONALIZED_ARG=''
+if [ -n "$PERSONALIZED_MOUNT" ]; then
+  TMP_PERSONALIZED_MOUNT=$TMP/_personalized/${PERSONALIZED_MOUNT##/srv/exercises-meta/}
+  rm -rf $TMP_PERSONALIZED_MOUNT
+  mkdir -p $TMP_PERSONALIZED_MOUNT
+  cp -r $PERSONALIZED_MOUNT $(dirname $TMP_PERSONALIZED_MOUNT)
+  PERSONALIZED_ARG="-v $TMP_PERSONALIZED_MOUNT:/personalized_exercise"
+fi
+
 docker run \
   -d --rm \
   -e "SID=$SID" \
   -e "REC=$GRADER_HOST" \
   -v $TMP_EXERCISE_MOUNT:/exercise \
   -v $TMP_SUBMISSION_MOUNT:/submission \
+  $PERSONALIZED_ARG \
   --network=aplus_default \
   $DOCKER_IMAGE \
   $CMD
