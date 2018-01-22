@@ -18,7 +18,7 @@ RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add - \
 
 WORKDIR /srv
 
-RUN git clone https://github.com/Aalto-LeTech/mooc-grader.git .
+RUN git clone --branch v1.0 https://github.com/Aalto-LeTech/mooc-grader.git .
 
 ADD settings_local.py .
 ADD docker-compose-run.sh ./scripts/
