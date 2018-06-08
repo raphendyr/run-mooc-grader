@@ -24,6 +24,9 @@ else
     if [ "$db" -a ! -e "$db" ]; then
         python3 manage.py migrate
     fi
+    
+    # generate instances for personalized exercises (course key default)
+    python3 manage.py pregenerate_exercises --gen-if-none-exist default
 
     exec python3 manage.py runserver 0.0.0.0:8080
 fi
