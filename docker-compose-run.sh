@@ -48,7 +48,7 @@ docker run \
   -d --rm \
   -e "SID=$SID" \
   -e "REC=$GRADER_HOST" \
-  -v $TMP_EXERCISE_MOUNT:/exercise \
+  -v $TMP_EXERCISE_MOUNT:/exercise:ro \
   -v $TMP_SUBMISSION_MOUNT:/submission \
   $PERSONALIZED_ARG \
   --network=aplus_default \
