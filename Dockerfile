@@ -3,7 +3,7 @@ FROM apluslms/run-python3
 # Required paths
 RUN mkdir -p /srv/courses/default /srv/data /srv/grader /srv/grader_static/ \
  && chmod 1777 /srv/data /srv/grader_static/
-COPY up.sh docker-compose-run.sh /srv/
+COPY up.sh docker-compose-run.sh cors.patch /srv/
 
 # Install system packages
 RUN apt-get update -qqy && DEBIAN_FRONTEND=noninteractive apt-get install -qqy --no-install-recommends \
@@ -45,9 +45,11 @@ ENV DJANGO_DEBUG=true \
 #  1) clone, touch local_settings to suppress warnings, prebuild .pyc files
 #  2) install requirements, remove the file, remove unrequired locales and tests
 #  3) create database
-RUN git clone https://github.com/Aalto-LeTech/mooc-grader.git . \
+ARG BRANCH=v1.2
+RUN git clone --quiet --single-branch --branch $BRANCH https://github.com/Aalto-LeTech/mooc-grader.git . \
   && (echo "On branch $(git rev-parse --abbrev-ref HEAD) | $(git describe)"; echo; git log -n5) > GIT \
   && rm -rf .git \
+  && patch -p1 < /srv/cors.patch \
   && python3 -m compileall -q . \
 \
   && pip3 --no-cache-dir --disable-pip-version-check install -r requirements.txt \
