@@ -2,8 +2,6 @@
 # Orders a container using docker run command.
 # The container command is responsible to
 
-set -x
-
 SID=$1
 GRADER_HOST=$2
 DOCKER_IMAGE=$3
