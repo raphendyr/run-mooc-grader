@@ -45,7 +45,7 @@ ENV DJANGO_DEBUG=true \
 #  1) clone, touch local_settings to suppress warnings, prebuild .pyc files
 #  2) install requirements, remove the file, remove unrequired locales and tests
 #  3) create database
-ARG BRANCH=v1.2
+ARG BRANCH=v1.3
 RUN git clone --quiet --single-branch --branch $BRANCH https://github.com/Aalto-LeTech/mooc-grader.git . \
   && (echo "On branch $(git rev-parse --abbrev-ref HEAD) | $(git describe)"; echo; git log -n5) > GIT \
   && rm -rf .git \
