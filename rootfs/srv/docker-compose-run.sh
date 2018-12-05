@@ -19,7 +19,7 @@ exercise_path=${exercise_path%/}
 # Docker cannot bind volume from inside docker so global /tmp is used.
 TMP=/tmp/aplus
 TMP_EXERCISE_MOUNT=$TMP/_ex/$exercise_path
-TMP_SUBMISSION_MOUNT=$TMP/${SUBMISSION_MOUNT#/srv/data/mgrader_uploads/}
+TMP_SUBMISSION_MOUNT=$TMP/${SUBMISSION_MOUNT#/local/grader/uploads/}
 rm -rf $TMP_EXERCISE_MOUNT
 mkdir -p $TMP_EXERCISE_MOUNT
 mkdir -p $TMP_SUBMISSION_MOUNT
