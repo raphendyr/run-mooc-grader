@@ -15,7 +15,9 @@ ensure_dir /local/grader/ex-meta
 # Ensure group permissions
 sock=/var/run/docker.sock
 gid=$(stat -c '%g' $sock)
-usermod -G $gid grader
+gname=$(getent group "$gid")
+[ "$gname" ] || groupadd -g "$gid" docker_socket
+usermod -G "$gid" grader
 
 # Ensure grader access to /tmp/aplus
 chmod 1777 /tmp/aplus
