@@ -12,6 +12,7 @@ ARG BRANCH=v1.4
 RUN : \
  && apt_install \
       apt-transport-https \
+      jq \
       # temp
       gnupg curl \
       libxml2-dev \
