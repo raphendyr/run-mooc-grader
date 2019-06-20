@@ -35,4 +35,4 @@ index 78e2bb3..42d3bcc 100644
  PyYAML==3.11
  docutils==0.12
  python-magic==0.4.11
-+django-cors-headers
++django-cors-headers ~= 2.4.1
