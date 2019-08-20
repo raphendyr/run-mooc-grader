@@ -46,6 +46,9 @@ RUN : \
  && mkdir -p /srv/grader/courses/ \
  && mkdir -p /srv/courses/default \
  && ln -s -T /srv/courses/default /srv/grader/courses/default \
+ && chown -R grader.nogroup \
+    /srv/courses \
+    /srv/grader \
 \
   # clean
  && rm -rf $GRADER_SECRET_KEY_FILE $GRADER_AJAX_KEY_FILE \
