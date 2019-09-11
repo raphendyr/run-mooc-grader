@@ -15,6 +15,7 @@ RUN : \
       jq \
       # temp
       gnupg curl \
+      libmagic1 \
       libxml2-dev \
       libxslt1-dev \
       zlib1g-dev \
