@@ -10,7 +10,12 @@ that includes a Docker compose configuration file to develop and test course con
 ### Usage
 
 Mooc grader is installed in `/srv/grader`.
-You may mount a development version of the MOOC grader source code on top of that, if you wish.
+You can mount a development version of the MOOC-Grader source code to `/src/grader`.
+The container will then copy it to `/srv/grader` and compile
+the translation file (django.po). If you mount directly to
+`/srv/grader`, you need to manually compile the translation file beforehand,
+but on the other hand, Django can reload the code and restart the server
+without restarting the whole container when you edit the source code files.
 
 Location `/data` is a volume and contains exercise data, database and secret key.
 It is world writable, so you can run this container as normal user.
@@ -35,8 +40,11 @@ services:
     # named persistent volume (until removed)
     # - data:/data
     # development mounts
-    # - /home/user/mooc-grader/:/srv/grader/:ro
-    # course configuration needs to be mounted here when developing the code
+    # - /home/user/mooc-grader/:/src/grader/:ro
+    # or...
+    # - /home/user/mooc-grader/:/srv/grader/
+    # course configuration needs to be mounted here if
+    # the mooc-grader is mounted to /srv/grader
     # - .:/srv/grader/courses/default:ro
     ports:
       - "8080:8080"
