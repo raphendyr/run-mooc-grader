@@ -8,7 +8,7 @@ ENV CONTAINER_TYPE="grader" \
     GRADER_SECRET_KEY_FILE="/local/grader/secret_key.py" \
     GRADER_AJAX_KEY_FILE="/local/grader/ajax_key.py"
 
-ARG BRANCH=v1.6
+ARG BRANCH=v1.7rc1
 RUN : \
  && apt_install \
       apt-transport-https \
@@ -31,7 +31,7 @@ RUN : \
  && cd /srv/grader \
 \
   # clone. patch and prebuild .pyc files
- && git clone --quiet --single-branch --branch $BRANCH https://github.com/Aalto-LeTech/mooc-grader.git . \
+ && git clone --quiet --single-branch --branch $BRANCH https://github.com/apluslms/mooc-grader.git . \
  && (echo "On branch $(git rev-parse --abbrev-ref HEAD) | $(git describe)"; echo; git log -n5) > GIT \
  && rm -rf .git \
  && patch -p1 < /srv/cors.patch \
