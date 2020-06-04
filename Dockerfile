@@ -16,8 +16,6 @@ RUN : \
       # temp
       gnupg curl \
       libmagic1 \
-      libxml2-dev \
-      libxslt1-dev \
       zlib1g-dev \
   # install docker-ce
  && curl -LSs https://download.docker.com/linux/debian/gpg | apt-key add - >/dev/null 2>&1 \
@@ -56,8 +54,6 @@ RUN : \
  && rm -rf /etc/init.d/ /tmp/* \
  && apt_purge \
       gnupg curl \
-      libxml2-dev \
-      libxslt1-dev \
       zlib1g-dev \
  && :
 
