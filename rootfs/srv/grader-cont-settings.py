@@ -1,8 +1,4 @@
 DEBUG = True
-#SECRET_KEY = 'not a very secret key'
-ADMINS = (
-)
-#ALLOWED_HOSTS = ["*"]
 
 STATIC_ROOT = '/local/grader/static/'
 MEDIA_ROOT = '/local/grader/media/'
@@ -15,9 +11,9 @@ CONTAINER_SCRIPT = '/srv/docker-compose-run.sh'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': '/local/grader/db.sqlite3',
-    }
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'grader',
+    },
 }
 
 CACHES = {
@@ -32,6 +28,9 @@ LOGGING['loggers'].update({
         'level': 'INFO',
         'handlers': ['console'],
         'propagate': True,
+    },
+    'django': {
+        'level': 'INFO',
     },
     #'django.db.backends': {
     #    'level': 'DEBUG',

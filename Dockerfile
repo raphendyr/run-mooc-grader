@@ -27,6 +27,8 @@ RUN : \
  && mkdir /srv/grader && chown grader.nogroup /srv/grader \
 \
  && cd /srv/grader \
+ && :
+RUN cd /srv/grader \
 \
   # clone. patch and prebuild .pyc files
  && git clone --quiet --single-branch --branch $BRANCH https://github.com/apluslms/mooc-grader.git . \
@@ -35,12 +37,16 @@ RUN : \
  && patch -p1 < /srv/cors.patch \
  && python3 -m compileall -q . \
 \
+ && :
+RUN cd /srv/grader \
   # install requirements, remove the file, remove unrequired locales and tests
  && pip_install -r requirements.txt \
  && rm requirements.txt \
  && find /usr/local/lib/python* -type d -regex '.*/locale/[a-z_A-Z]+' -not -regex '.*/\(en\|fi\|sv\)' -print0 | xargs -0 rm -rf \
  && find /usr/local/lib/python* -type d -name 'tests' -print0 | xargs -0 rm -rf \
 \
+ && :
+RUN cd /srv/grader \
   # default course link
  && mkdir -p /srv/grader/courses/ \
  && mkdir -p /srv/courses/default \
@@ -49,8 +55,18 @@ RUN : \
     /srv/courses \
     /srv/grader \
 \
+ && :
+RUN cd /srv/grader \
+  # preprocess
+ && mkdir -p /local/grader/ && chown grader /local/grader/ \
+ && python3 manage.py compilemessages 2>&1 \
+ && create-db.sh grader grader django-migrate.sh \
+\
+ && :
+RUN cd /srv/grader \
   # clean
  && rm -rf $GRADER_SECRET_KEY_FILE $GRADER_AJAX_KEY_FILE \
+ && rm -rf /local/ \
  && rm -rf /etc/init.d/ /tmp/* \
  && apt_purge \
       gnupg curl \
